@@ -12,6 +12,13 @@ struct SudokuApp: App {
     var body: some Scene {
         WindowGroup {
             HomeView()
+#if os(macOS)
+                .toolbar {
+                    SettingsLink {
+                        Image(systemName: "gearshape")
+                    }
+                }
+#endif
         }
     }
 }
