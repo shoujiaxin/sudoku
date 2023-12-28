@@ -11,6 +11,7 @@
 		290812432B3DC8DA00F4A171 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290812422B3DC8DA00F4A171 /* ContentView.swift */; };
 		290812452B3DC8DB00F4A171 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 290812442B3DC8DB00F4A171 /* Assets.xcassets */; };
 		290812492B3DC8DB00F4A171 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 290812482B3DC8DB00F4A171 /* Preview Assets.xcassets */; };
+		29B4A1842B3DDB46008D71A5 /* Level.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29B4A1832B3DDB46008D71A5 /* Level.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +21,7 @@
 		290812442B3DC8DB00F4A171 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		290812462B3DC8DB00F4A171 /* Sudoku.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Sudoku.entitlements; sourceTree = "<group>"; };
 		290812482B3DC8DB00F4A171 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		29B4A1832B3DDB46008D71A5 /* Level.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Level.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +54,7 @@
 		2908123F2B3DC8DA00F4A171 /* Sudoku */ = {
 			isa = PBXGroup;
 			children = (
+				29B4A1822B3DDB34008D71A5 /* Models */,
 				290812402B3DC8DA00F4A171 /* SudokuApp.swift */,
 				290812422B3DC8DA00F4A171 /* ContentView.swift */,
 				290812442B3DC8DB00F4A171 /* Assets.xcassets */,
@@ -67,6 +70,14 @@
 				290812482B3DC8DB00F4A171 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		29B4A1822B3DDB34008D71A5 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				29B4A1832B3DDB46008D71A5 /* Level.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -139,6 +150,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				29B4A1842B3DDB46008D71A5 /* Level.swift in Sources */,
 				290812432B3DC8DA00F4A171 /* ContentView.swift in Sources */,
 				290812412B3DC8DA00F4A171 /* SudokuApp.swift in Sources */,
 			);
