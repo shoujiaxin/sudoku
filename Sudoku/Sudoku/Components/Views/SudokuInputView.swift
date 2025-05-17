@@ -1,5 +1,5 @@
 //
-//  SudokuInput.swift
+//  SudokuInputView.swift
 //  Sudoku
 //
 //  Created by Jiaxin Shou on 2025/5/15.
@@ -8,7 +8,7 @@
 import ComposableArchitecture
 import SwiftUI
 
-struct SudokuInput: View {
+struct SudokuInputView: View {
     let store: StoreOf<SudokuInputFeature>
 
     private enum Constants {

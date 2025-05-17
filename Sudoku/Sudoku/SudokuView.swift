@@ -34,7 +34,7 @@ struct SudokuView: View {
                     action: \.grid
                 ))
 
-                SudokuInput(store: store.scope(
+                SudokuInputView(store: store.scope(
                     state: \.input,
                     action: \.input
                 ))
