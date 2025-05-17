@@ -12,7 +12,9 @@ struct SudokuMenu: View {
     let store: StoreOf<SudokuMenuFeature>
 
     private enum Constants {
-        static let iconSize: CGFloat = 20
+        static let buttonContentPadding: CGFloat = 8
+
+        static let buttonIconSize: CGFloat = 20
     }
 
     var body: some View {
@@ -34,9 +36,11 @@ struct SudokuMenu: View {
 
                         Image(.refreshCcw)
                             .resizable()
-                            .frame(width: Constants.iconSize, height: Constants.iconSize)
+                            .frame(width: Constants.buttonIconSize, height: Constants.buttonIconSize)
                     }
+                    .padding(Constants.buttonContentPadding)
                 }
+                .buttonStyle(.bordered)
 
                 Button {
                     store.send(.newGame)
@@ -47,9 +51,11 @@ struct SudokuMenu: View {
 
                         Image(.plus)
                             .resizable()
-                            .frame(width: Constants.iconSize, height: Constants.iconSize)
+                            .frame(width: Constants.buttonIconSize, height: Constants.buttonIconSize)
                     }
+                    .padding(Constants.buttonContentPadding)
                 }
+                .buttonStyle(.bordered)
 
                 Button {
                     store.send(.resume)
@@ -61,12 +67,12 @@ struct SudokuMenu: View {
 
                         Image(.playFill)
                             .resizable()
-                            .frame(width: Constants.iconSize, height: Constants.iconSize)
+                            .frame(width: Constants.buttonIconSize, height: Constants.buttonIconSize)
                     }
+                    .padding(Constants.buttonContentPadding)
                 }
-                .foregroundStyle(.tint)
+                .buttonStyle(.borderedProminent)
             }
-            .buttonStyle(SudokuPauseButtonStyle())
         }
         .frame(width: 300)
         .padding(24)
@@ -108,16 +114,7 @@ struct SudokuMenu: View {
             }
             .frame(maxWidth: .infinity)
         }
-    }
-}
-
-private struct SudokuPauseButtonStyle: ButtonStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .frame(maxWidth: .infinity)
-            .padding()
-            .background(.quaternary, in: .rect(cornerRadius: 8))
-            .opacity(configuration.isPressed ? 0.5 : 1)
+        .monospacedDigit()
     }
 }
 

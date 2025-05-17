@@ -83,6 +83,7 @@ struct SudokuInputView: View {
                         } label: {
                             Text(digit, format: .number)
                                 .font(store.mode == .fill ? .system(size: 40).monospaced() : .custom("Bradley Hand", size: 40))
+                                .fontDesign(nil)
                                 .minimumScaleFactor(0.01)
                                 .foregroundStyle(store.mode == .fill ? Color.accentColor : .secondary)
                         }

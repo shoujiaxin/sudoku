@@ -9,7 +9,7 @@ import Foundation
 
 // TODO: actor
 class SudokuGenerator {
-    enum Difficulty {
+    enum Difficulty: CaseIterable {
         case easy
 
         case medium

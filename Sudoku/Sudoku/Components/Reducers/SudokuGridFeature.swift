@@ -102,6 +102,7 @@ struct SudokuGridFeature {
     }
 
     private func removeCandidatesIfNeeded(_ value: Int, state: State) -> Effect<Action> {
+        // TODO: remove error and candidate with the same value of peer cells
         .merge(state.cells.lazy
             .filter {
                 $0.isPeer(with: state.selectedCell)

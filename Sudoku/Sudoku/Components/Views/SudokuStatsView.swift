@@ -56,8 +56,11 @@ struct SudokuStatsView: View {
                 }
                 .frame(maxWidth: .infinity, alignment: .trailing)
             }
+            .padding(8)
         }
-        .buttonStyle(SudokuStatsButtonStyle())
+        .buttonStyle(.bordered)
+        .foregroundStyle(.primary)
+        .monospacedDigit()
         .onChange(of: scenePhase, initial: true) { oldValue, newValue in
             switch (oldValue, newValue) {
             case (.active, _):
@@ -88,17 +91,5 @@ extension SudokuGenerator.Difficulty {
         case .expert:
             "Expert"
         }
-    }
-}
-
-private struct SudokuStatsButtonStyle: ButtonStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .padding()
-            .background(
-                .fill.quinary,
-                in: .rect(cornerRadius: 8)
-            )
-            .opacity(configuration.isPressed ? 0.5 : 1)
     }
 }

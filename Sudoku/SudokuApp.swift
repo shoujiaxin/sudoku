@@ -12,6 +12,7 @@ struct SudokuApp: App {
     var body: some Scene {
         WindowGroup {
             HomeView()
+                .fontDesign(.rounded)
         }
     }
 }
