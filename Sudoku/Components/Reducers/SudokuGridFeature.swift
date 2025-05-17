@@ -31,15 +31,7 @@ struct SudokuGridFeature {
     }
 
     enum Action {
-        enum Delegate {
-            case onComplete(_ value: Int)
-
-            case onSolve
-        }
-
         case cells(IdentifiedActionOf<SudokuCellFeature>)
-
-        case delegate(Delegate)
 
         case eraseSelection
 
@@ -55,13 +47,6 @@ struct SudokuGridFeature {
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case let .cells(.element(id: _, action: .delegate(.onCorrectFill(value)))):
-                handleCellCorrectFill(value, state: state)
-
-            case .cells(.element(id: _, action: .delegate(.onIncorrectFill))):
-                // Just pass this event up, it will be handled in SudokuFeature.
-                .none
-
             case .eraseSelection:
                 .send(.cells(.element(
                     id: state.selection,
@@ -97,22 +82,6 @@ struct SudokuGridFeature {
 
     @Dependency(\.sudokuGenerator)
     private var sudokuGenerator
-
-    private func handleCellCorrectFill(_ value: Int, state: State) -> Effect<Action> {
-        // TODO: trigger animation
-
-        let isCompleted = state.cells.count {
-            if case let .solution(v) = $0.content, v == value {
-                true
-            } else if case let .clue(v) = $0.content, v == value {
-                true
-            } else {
-                false
-            }
-        } == 9
-
-        return isCompleted ? .send(.delegate(.onComplete(value))) : .none
-    }
 
     private func handleSelect(_ id: SudokuCellFeature.State.ID?, state: inout State) -> Effect<Action> {
         if let id {

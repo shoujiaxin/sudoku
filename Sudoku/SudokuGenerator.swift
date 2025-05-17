@@ -8,7 +8,7 @@
 import Foundation
 
 // TODO: actor
-struct SudokuGenerator {
+class SudokuGenerator {
     enum Difficulty {
         case easy
 
@@ -32,7 +32,7 @@ struct SudokuGenerator {
         }
     }
 
-    private let solution: [[Int]]
+    private var solution: [[Int]]
 
     init() {
         solution = Self.generateSolution()
@@ -76,6 +76,10 @@ struct SudokuGenerator {
 
     func value(row: Int, column: Int) -> Int {
         solution[row][column]
+    }
+
+    func regenerateSolution() {
+        solution = Self.generateSolution()
     }
 
     // MARK: - Private

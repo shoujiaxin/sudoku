@@ -17,7 +17,7 @@ struct SudokuInputFeature {
             case note
         }
 
-        var hiddenValues: Set<Int> = []
+        var hiddenValues: Set<Int>
 
         var mode: Mode = .fill
     }
