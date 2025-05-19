@@ -11,6 +11,14 @@ import SwiftUI
 struct SudokuGrid: View {
     let store: StoreOf<SudokuGridFeature>
 
+    private enum Constants {
+        static let gridCornerRadius: CGFloat = 10
+
+        static let primaryGridLineWidth: CGFloat = 2
+
+        static let secondaryGridLineWidth: CGFloat = 1
+    }
+
     var body: some View {
         // TODO: drag gesture
         GeometryReader { geometry in
@@ -33,9 +41,9 @@ struct SudokuGrid: View {
                         }
                 }
             }
-            .monospaced()
         }
         .aspectRatio(1, contentMode: .fit)
+        .clipShape(.rect(cornerRadius: Constants.gridCornerRadius))
         .background {
             gridLines
         }
@@ -55,14 +63,15 @@ struct SudokuGrid: View {
 
     @ViewBuilder
     private func primaryGridLines(size: CGSize) -> some View {
-        let lineWidth: CGFloat = 2
-        let inset = lineWidth / 2
+        RoundedRectangle(cornerRadius: Constants.gridCornerRadius)
+            .stroke(.secondary, lineWidth: Constants.primaryGridLineWidth)
 
         Path { path in
+            let inset = Constants.primaryGridLineWidth / 2
             let cellWidth = size.width / 9
             let cellHeight = size.height / 9
 
-            for i in stride(from: 0, through: 9, by: 3) {
+            for i in stride(from: 3, through: 6, by: 3) {
                 let x = cellWidth * CGFloat(i)
                 path.move(to: .init(x: x, y: -inset))
                 path.addLine(to: .init(x: x, y: size.height + inset))
@@ -72,7 +81,7 @@ struct SudokuGrid: View {
                 path.addLine(to: .init(x: size.width + inset, y: y))
             }
         }
-        .stroke(.primary, lineWidth: lineWidth)
+        .stroke(.secondary, lineWidth: Constants.primaryGridLineWidth)
     }
 
     private func secondaryGridLines(size: CGSize) -> some View {
@@ -93,6 +102,6 @@ struct SudokuGrid: View {
                 path.addLine(to: .init(x: size.width, y: y))
             }
         }
-        .stroke(.secondary, lineWidth: 0.5)
+        .stroke(.tertiary, lineWidth: Constants.secondaryGridLineWidth)
     }
 }
