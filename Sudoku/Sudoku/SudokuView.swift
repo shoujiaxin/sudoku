@@ -27,7 +27,6 @@ struct SudokuView: View {
                     state: \.stats,
                     action: \.stats
                 ))
-                .padding(.bottom)
 
                 SudokuGrid(store: store.scope(
                     state: \.grid,

@@ -19,14 +19,14 @@ struct SudokuStatsView: View {
     private var scenePhase
 
     var body: some View {
-        VStack {
+        VStack(spacing: 16) {
             Button {
                 store.send(.pause, animation: .smooth(duration: 0.25))
             } label: {
                 HStack {
                     Text(
                         Duration.seconds(store.elapsedTime),
-                        format: .time(pattern: .minuteSecond)
+                        format: .time(pattern: .minuteSecond(padMinuteToLength: 2))
                     )
 
                     Image(systemName: "pause.fill")
@@ -38,53 +38,72 @@ struct SudokuStatsView: View {
                     RoundedRectangle(cornerRadius: 8)
                         .stroke(.tertiary, lineWidth: 1)
                 }
+                .background(.background, in: .rect(cornerRadius: 8))
             }
             .buttonStyle(.plain)
-        }
-        .monospacedDigit()
 
-        Button {
-            store.send(.pause, animation: .smooth(duration: 0.25))
-        } label: {
             HStack {
-                VStack(alignment: .leading, spacing: Constants.verticalSpacing) {
-                    Text("Mistakes")
-                        .font(.callout)
-
-                    Text(store.mistakeCount, format: .number)
-                        .font(.footnote)
-                        .foregroundStyle(.secondary)
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-
-                VStack(spacing: Constants.verticalSpacing) {
+                VStack(alignment: .leading) {
                     Text("Level")
-                        .font(.callout)
+                        .font(.caption)
 
                     Text(store.difficulty.title)
-                        .font(.footnote)
-                        .foregroundStyle(.secondary)
                 }
-                .frame(maxWidth: .infinity)
 
-                VStack(alignment: .trailing, spacing: Constants.verticalSpacing) {
-                    Text("Time")
-                        .font(.callout)
+                Spacer()
 
-                    Text(
-                        Duration.seconds(store.elapsedTime),
-                        format: .time(pattern: .minuteSecond)
-                    )
-                    .font(.footnote)
-                    .foregroundStyle(.secondary)
+                VStack(alignment: .trailing) {
+                    Text("Mistakes")
+                        .font(.caption)
+
+                    Text(store.mistakeCount.formatted(.number) + "/3")
                 }
-                .frame(maxWidth: .infinity, alignment: .trailing)
             }
-            .padding(8)
+            .foregroundStyle(.gray)
         }
-        .buttonStyle(.bordered)
-        .foregroundStyle(.primary)
         .monospacedDigit()
+//        Button {
+//            store.send(.pause, animation: .smooth(duration: 0.25))
+//        } label: {
+//            HStack {
+//                VStack(alignment: .leading, spacing: Constants.verticalSpacing) {
+//                    Text("Mistakes")
+//                        .font(.callout)
+//
+//                    Text(store.mistakeCount, format: .number)
+//                        .font(.footnote)
+//                        .foregroundStyle(.secondary)
+//                }
+//                .frame(maxWidth: .infinity, alignment: .leading)
+//
+//                VStack(spacing: Constants.verticalSpacing) {
+//                    Text("Level")
+//                        .font(.callout)
+//
+//                    Text(store.difficulty.title)
+//                        .font(.footnote)
+//                        .foregroundStyle(.secondary)
+//                }
+//                .frame(maxWidth: .infinity)
+//
+//                VStack(alignment: .trailing, spacing: Constants.verticalSpacing) {
+//                    Text("Time")
+//                        .font(.callout)
+//
+//                    Text(
+//                        Duration.seconds(store.elapsedTime),
+//                        format: .time(pattern: .minuteSecond)
+//                    )
+//                    .font(.footnote)
+//                    .foregroundStyle(.secondary)
+//                }
+//                .frame(maxWidth: .infinity, alignment: .trailing)
+//            }
+//            .padding(8)
+//        }
+//        .buttonStyle(.bordered)
+//        .foregroundStyle(.primary)
+//        .monospacedDigit()
         .onChange(of: scenePhase, initial: true) { oldValue, newValue in
             switch (oldValue, newValue) {
             case (.active, _):
