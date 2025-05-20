@@ -34,7 +34,7 @@ struct SudokuGrid: View {
                     action: \.cells[id: store.selection]
                 )
 
-                ForEach(store.scope(state: \.cells, action: \.cells)) { cell in
+                ForEach(Array(store.scope(state: \.cells, action: \.cells))) { cell in
                     SudokuCell(store: cell, selection: selectionScope)
                         .onTapGesture {
                             store.send(.select(cell.id))
@@ -43,10 +43,13 @@ struct SudokuGrid: View {
             }
         }
         .aspectRatio(1, contentMode: .fit)
-        .clipShape(.rect(cornerRadius: Constants.gridCornerRadius))
         .background {
             gridLines
         }
+        .background(
+            .background,
+            in: .rect(cornerRadius: Constants.gridCornerRadius)
+        )
     }
 
     private var gridLines: some View {

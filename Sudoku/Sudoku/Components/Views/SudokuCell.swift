@@ -13,6 +13,12 @@ struct SudokuCell: View {
 
     var selection: StoreOf<SudokuCellFeature>? = nil
 
+    private enum Constants {
+        static let selectionScale: CGFloat = 1.1
+
+        static let cornerRadius: CGFloat = 8
+    }
+
     var body: some View {
         content
             .aspectRatio(1, contentMode: .fit)
@@ -25,6 +31,34 @@ struct SudokuCell: View {
                     background(selection: selection)
                 }
             }
+            .scaleEffect(isSelected ? Constants.selectionScale : 1)
+            .zIndex(isSelected ? 1 : 0)
+            .id(id)
+    }
+
+    private var isSelected: Bool {
+        selection?.state.id == store.id
+    }
+
+    private var cornerRadii: RectangleCornerRadii {
+        .init(
+            topLeading: store.row == 0 && store.column == 0 ? Constants.cornerRadius : 0,
+            bottomLeading: store.row == 8 && store.column == 0 ? Constants.cornerRadius : 0,
+            bottomTrailing: store.row == 8 && store.column == 8 ? Constants.cornerRadius : 0,
+            topTrailing: store.row == 0 && store.column == 8 ? Constants.cornerRadius : 0
+        )
+    }
+
+    private var id: Int {
+        if let selection = selection?.state,
+           store.id == selection.id ||
+           (store.row == selection.row && abs(store.column - selection.column) == 1) ||
+           (store.column == selection.column && abs(store.row - selection.row) == 1)
+        {
+            (store.id << 8) | selection.id
+        } else {
+            store.id
+        }
     }
 
     // MARK: - Contents
@@ -84,14 +118,12 @@ struct SudokuCell: View {
 
     private func mistakeContent(_ value: Int) -> some View {
         Text(value, format: .number)
-            .fontWeight(.semibold)
             .foregroundStyle(.red)
             .padding(by: 0.1)
     }
 
     private func solutionContent(_ value: Int) -> some View {
         Text(value, format: .number)
-            .fontWeight(.semibold)
             .foregroundStyle(.tint)
             .padding(by: 0.1)
     }
@@ -111,30 +143,38 @@ struct SudokuCell: View {
 
     /// Background for the selected cell.
     private var selectionBackground: some View {
-        Color.accentColor
-            .opacity(0.3)
+        ZStack {
+            RoundedRectangle(cornerRadius: Constants.cornerRadius / Constants.selectionScale)
+                .fill(.background)
+
+            RoundedRectangle(cornerRadius: Constants.cornerRadius / Constants.selectionScale)
+                .fill(.tint.quinary)
+
+            RoundedRectangle(cornerRadius: Constants.cornerRadius / Constants.selectionScale)
+                .stroke(.tint, lineWidth: 2)
+        }
     }
 
     /// Background for cells in the same row, column, and box as the selected cell.
     @ViewBuilder
     private func peerBackground(with selection: SudokuCellFeature.State) -> some View {
         switch (selection.content, store.content) {
-        case let (.solution(v1), .mistake(v2)),
-             let (.mistake(v1), .solution(v2)),
-             let (.mistake(v1), .mistake(v2)),
+        case let (.clue(v1), .mistake(v2)),
              let (.mistake(v1), .clue(v2)),
-             let (.clue(v1), .mistake(v2)):
+             let (.mistake(v1), .mistake(v2)),
+             let (.mistake(v1), .solution(v2)),
+             let (.solution(v1), .mistake(v2)):
             if v1 == v2 {
-                Color.red
-                    .opacity(0.1)
+                UnevenRoundedRectangle(cornerRadii: cornerRadii)
+                    .fill(.red.opacity(0.2))
             } else {
-                Color.accentColor
-                    .opacity(0.1)
+                UnevenRoundedRectangle(cornerRadii: cornerRadii)
+                    .fill(.gray.tertiary)
             }
 
         default:
-            Color.accentColor
-                .opacity(0.1)
+            UnevenRoundedRectangle(cornerRadii: cornerRadii)
+                .fill(.gray.tertiary)
         }
     }
 
@@ -142,15 +182,15 @@ struct SudokuCell: View {
     @ViewBuilder
     private func groupBackground(with selection: SudokuCellFeature.State) -> some View {
         switch (selection.content, store.content) {
-        case let (.solution(v1), .solution(v2)),
-             let (.solution(v1), .clue(v2)),
-             let (.mistake(v1), .solution(v2)),
-             let (.mistake(v1), .clue(v2)),
+        case let (.clue(v1), .clue(v2)),
              let (.clue(v1), .solution(v2)),
-             let (.clue(v1), .clue(v2)):
+             let (.mistake(v1), .clue(v2)),
+             let (.mistake(v1), .solution(v2)),
+             let (.solution(v1), .clue(v2)),
+             let (.solution(v1), .solution(v2)):
             if v1 == v2 {
-                Color.accentColor
-                    .opacity(0.2)
+                UnevenRoundedRectangle(cornerRadii: cornerRadii)
+                    .fill(.tint.tertiary)
             }
 
         default:
