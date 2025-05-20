@@ -19,6 +19,30 @@ struct SudokuStatsView: View {
     private var scenePhase
 
     var body: some View {
+        VStack {
+            Button {
+                store.send(.pause, animation: .smooth(duration: 0.25))
+            } label: {
+                HStack {
+                    Text(
+                        Duration.seconds(store.elapsedTime),
+                        format: .time(pattern: .minuteSecond)
+                    )
+
+                    Image(systemName: "pause.fill")
+                }
+                .foregroundStyle(.tint)
+                .padding(.horizontal, 10)
+                .padding(.vertical, 6)
+                .background {
+                    RoundedRectangle(cornerRadius: 8)
+                        .stroke(.tertiary, lineWidth: 1)
+                }
+            }
+            .buttonStyle(.plain)
+        }
+        .monospacedDigit()
+
         Button {
             store.send(.pause, animation: .smooth(duration: 0.25))
         } label: {
