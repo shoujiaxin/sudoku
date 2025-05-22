@@ -13,12 +13,6 @@ struct SudokuCell: View {
 
     var selection: StoreOf<SudokuCellFeature>? = nil
 
-    private enum Constants {
-        static let selectionScale: CGFloat = 1.1
-
-        static let cornerRadius: CGFloat = 8
-    }
-
     var body: some View {
         content
             .aspectRatio(1, contentMode: .fit)
@@ -34,6 +28,12 @@ struct SudokuCell: View {
             .scaleEffect(isSelected ? Constants.selectionScale : 1)
             .zIndex(isSelected ? 1 : 0)
             .id(id)
+    }
+
+    private enum Constants {
+        static let selectionScale: CGFloat = 1.1
+
+        static let cornerRadius: CGFloat = 8
     }
 
     private var isSelected: Bool {
@@ -148,11 +148,12 @@ struct SudokuCell: View {
                 .fill(.background)
 
             RoundedRectangle(cornerRadius: Constants.cornerRadius / Constants.selectionScale)
-                .fill(.tint.quinary)
+                .fill(.quinary)
 
             RoundedRectangle(cornerRadius: Constants.cornerRadius / Constants.selectionScale)
-                .stroke(.tint, lineWidth: 2)
+                .stroke(.primary, lineWidth: 2)
         }
+        .foregroundStyle(.tint)
     }
 
     /// Background for cells in the same row, column, and box as the selected cell.
@@ -169,11 +170,13 @@ struct SudokuCell: View {
                     .fill(.red.opacity(0.2))
             } else {
                 UnevenRoundedRectangle(cornerRadii: cornerRadii)
+                    // TODO: color
                     .fill(.gray.tertiary)
             }
 
         default:
             UnevenRoundedRectangle(cornerRadii: cornerRadii)
+                // TODO: color
                 .fill(.gray.tertiary)
         }
     }
@@ -190,6 +193,7 @@ struct SudokuCell: View {
              let (.solution(v1), .solution(v2)):
             if v1 == v2 {
                 UnevenRoundedRectangle(cornerRadii: cornerRadii)
+                    // TODO: color
                     .fill(.tint.tertiary)
             }
 
